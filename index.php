@@ -65,13 +65,13 @@ echo "</select><input type='submit' value = 'ok'> <br>";
 <form method="get" action="" id="form">
 
 <p>Введите день недели</p>
-<input required name = "day" value="Monday" form="form">
+<input required name = "week_day" value="Monday" form="form">
 <p>Введите номер пары</p>
-<input required name = "number" type="number" value="1" min="1" max="6" step="1" form="form">
+<input required name = "lesson_number" type="number" value="1" min="1" max="6" step="1" form="form">
 <p>Введите номер аудитории</p>
-<input required name="aud" value="104i" form="form">
+<input required name="auditorium" value="104i" form="form">
 <p>Введите название дисциплины</p>
-<input required name="subj" value="Internet Technologies" form="form">
+<input required name="disciple" value="Internet Technologies" form="form">
 <p><b> Выберите преподавателя<select name = "teacherSelection" form="form"><?php $sqlSelect = "SELECT * FROM iteh2lb1var2.teacher";
 echo "<option>Преподаватель</option>";
   
@@ -95,40 +95,44 @@ echo "</select></b></p>" ?>
 
 </form>
 </div>
+
+
+
 <?php
-$day = $_GET['day'];
-echo($day);
-$number=$_GET['number'];
-$aud=$_GET['aud'];
-$subj=$_GET['subj'];
-$teacherSelection=$_GET['teacherSelection'];
-$groupSelection=$_GET['groupSelection'];
+$ID_Lesson = 5;
+$week_day = $_GET['week_day'];
+$lesson_number=$_GET['lesson_number'];
+$auditorium=$_GET['auditorium'];
+$disciple=$_GET['disciple'];
+$type = 'Practical';
+//$teacherSelection=$_GET['teacherSelection'];
+//$groupSelection=$_GET['groupSelection'];
 
 try {
-   
+    
     // Устанавливаем корректную кодировку
     $dbh->exec("set names utf8");
     // Собираем данные для запроса
-    $data = array( 'day' => $day, 'number' => $number,
-    'aud'=>$aud, 'subj'=>$subj,
-    'teacherSelection' => $teacherSelection,
-    'groupSelection' => $groupSelection); 
+    $data = array('ID_Lesson'=>$ID_Lesson,'week_day' => $week_day, 'lesson_number' => $lesson_number,
+    'auditorium'=>$auditorium, 'disciple'=>$disciple,
+    'type'=>$type
+    //'teacherSelection' => $teacherSelection,
+    //'groupSelection' => $groupSelection
+    ); 
     
-
-    // Подготавливаем SQL-запрос
-    //$query = $dbh->prepare("INSERT INTO $db_table (name, text) values (:name, :text)");
-    // Выполняем запрос с данными
-    //$query->execute($data);
-    // Запишим в переменую, что запрос отрабтал
-   // $result = true;
+    $sql = "INSERT INTO iteh2lb1var2.lesson (ID_Lesson, week_day, lesson_number, auditorium, disciple, type) values (?, ?, ?, ?, ?, ?)";
+    $stmt= $dbh->prepare($sql);
+    $stmt->execute([$ID_Lesson, $week_day, $lesson_number, $auditorium, $disciple, $type,]);
+    
+    $result = true;
 } catch (PDOException $e) {
     // Если есть ошибка соединения или выполнения запроса, выводим её
     print "Ошибка!: " . $e->getMessage() . "<br/>";
 }
 
-//if ($result) {
-  //  echo "Успех. Информация занесена в базу данных";
-//}
+if ($result) {
+    echo "<p>Успех. Информация занесена в базу данных</p>";
+}
 ?>
 </body>
 </html> 
