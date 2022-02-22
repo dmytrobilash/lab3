@@ -21,31 +21,53 @@ $pass = "";
 $dbh = new PDO($dsn, $user, $pass);
 print("Connected to database <br>");
 
+
+
+
+//где то тут вывод первой части задания 
 $sqlSelect = "SELECT * FROM iteh2lb1var2.groups";
-echo "<p><strong> Вывести расписание занятий группы </strong><select id='groups'>";
-echo "<option>Группа</option> </p>";
+echo '<form method="get" action="firstDB.php">';
+echo "<p><strong> Вывести расписание занятий группы </strong><select name='groups'>";
+echo "<option name = 'selectiongroup' >Группа</option> </p>";
   
 foreach($dbh->query($sqlSelect) as $cell)
 {   echo "<option>";
     print_r($cell[1]);
     echo "</option>";
 }
-echo '</select> <input type="submit" value = "ok"onClick=location.href="firstDB.php"><br>';
+?>
+
+</select>
+    <input type="submit" value = "ok">
+</form>
 
 
+
+
+
+
+
+<?php //Где то тут вывод второй части задания БОЖЕ ПОМОГИ МНЕ
 $sqlSelect = "SELECT * FROM iteh2lb1var2.teacher";
-echo "<p><strong>Вывести расписание преподавателя</strong> <select id='teachers'>";
+echo '<form method="get" action="secondDB.php">';
+echo "<p><strong>Вывести расписание преподавателя</strong> <select name='teachers'>";
 echo "<option>Преподаватели</option></p>";
   
 foreach($dbh->query($sqlSelect) as $cell)
 {   echo "<option>";
     print_r($cell[1]);
     echo "</option>";
-}
-echo "</select><input type='submit' value = 'ok'> <br>";
+}?>
 
+</select>
+    <input type="submit" value = "ok">
+</form>
+
+
+<?php
 $sqlSelect = "SELECT DISTINCT auditorium FROM iteh2lb1var2.lesson";
-echo "<p><strong>Вывести расписание для аудитории</strong> <select id='auditorium'>";
+echo '<form method="get" action="thirdDB.php">';
+echo "<p><strong>Вывести расписание для аудитории</strong> <select name='auditorium'>";
 echo "<option>Аудитория</option></p>";
   
 foreach($dbh->query($sqlSelect) as $cell)
@@ -54,9 +76,10 @@ foreach($dbh->query($sqlSelect) as $cell)
     echo "</option>";
     
 }
-
-echo "</select><input type='submit' value = 'ok'> <br>";
 ?>
+</select>
+<input type='submit' value = 'ok'>
+
 
 
 <p><b>Добавление нового ПЗ</b></p>
