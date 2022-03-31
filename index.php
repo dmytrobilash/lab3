@@ -96,8 +96,8 @@ foreach($dbh->query($sqlSelect) as $cell)
 <p>Введите номер аудитории</p>
 <input required name="auditorium" value="104i">
 <p>Введите название дисциплины</p>
-<input required name="disciple" value="Internet Technologies" >
-<p><b> Выберите преподавателя<select name = "teacherSelection"><?php $sqlSelect = "SELECT * FROM iteh2lb1var2.teacher";
+<input required name="disciple" >
+<p><b> Выберите преподавателя<select name = "teacher"><?php $sqlSelect = "SELECT * FROM iteh2lb1var2.teacher";
 echo "<option>Преподаватель</option>";
   
 foreach($dbh->query($sqlSelect) as $cell)
@@ -106,7 +106,7 @@ foreach($dbh->query($sqlSelect) as $cell)
     echo "</option>";
 }
 echo "</select>" ?>
- Выберите группу<select name ="groupSelection" ><?php $sqlSelect = "SELECT * FROM iteh2lb1var2.groups";
+ Выберите группу<select name ="groups" ><?php $sqlSelect = "SELECT * FROM iteh2lb1var2.groups";
 echo "<option>Группа</option>";
   
 foreach($dbh->query($sqlSelect) as $cell)
@@ -130,8 +130,8 @@ $lesson_number=$_GET['lesson_number'];
 $auditorium=$_GET['auditorium'];
 $disciple=$_GET['disciple'];
 $type = 'Practical';
-//$teacherSelection=$_GET['teacherSelection'];
-//$groupSelection=$_GET['groupSelection'];
+$teacher=$_GET['teacher'];
+$groups=$_GET['groups'];
 
 try {
     
@@ -149,9 +149,19 @@ try {
     $stmt= $dbh->prepare($sql);
     $stmt->execute([$week_day, $lesson_number, $auditorium, $disciple, $type]);
     
+    // ВСТАВЛЯЕМ lesson_groups
+    $sql = "";
+    $stmt= $dbh->prepare($sql);
+    $stmt->execute();
+    
+    // ВСТАВЛЯЕМ lesson_teachers
+    $sql = "INSERT INTO iteh2lb1var2.lesson_teachers () values ()";
+    $stmt= $dbh->prepare($sql);
+    $stmt->execute();
+
     $result = true;
 } catch (PDOException $e) {
-    // Если есть ошибка соединения или выполнения запроса, выводим её
+    
     print "Ошибка!: " . $e->getMessage() . "<br/>";
 }
 
