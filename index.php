@@ -115,6 +115,7 @@ echo "</select></b></p>" ?>
 
 <!-- НАЧАЛО ПХП ЛОГИКИ -->
 <?php
+if( isset($_GET['week_day']) && isset($_GET['lesson_number']) && isset($_GET['auditorium']) && isset($_GET['disciple']) && isset($_GET['name']) && isset($_GET['title'])){
 
 $week_day = $_GET['week_day'];
 $lesson_number=$_GET['lesson_number'];
@@ -126,6 +127,7 @@ $title=$_GET['title'];
 
 try {
     // Устанавливаем корректную кодировку
+    
     $dbh->exec("set names utf8");
     // Собираем данные для запроса
     
@@ -174,19 +176,19 @@ try {
     $st = $dbh->prepare($sql);
     $st->execute([$lesson_id, $group_id]);
 
-
-
-
-    $result = true;
-
+    echo "Успех. Данные были занесены в БД.";
+    
 } catch (PDOException $e) {
     
     print "Ошибка!: " . $e->getMessage() . "<br/>";
 }
 
-if ($result) {
-    echo "<p>Успех. Информация занесена в базу данных</p>";
 }
+else{
+    
+}
+
+ 
 ?>
 </body>
 </html> 
