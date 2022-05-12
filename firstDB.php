@@ -1,26 +1,14 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<style>
-   .changedP p{
-       margin: 0;
-   }     
-</style>
+<link rel="stylesheet" type="text/css" href="style.css">
 <title>ЛБ1</title>
 </head>
-<h2>Поздравляем, вы попали на вывод базы данных занятий группы</h2>
+<h2>Вывод базы данных занятий группы</h2>
 
 <?php
-
-$db = "iteh2lb1var2";
-$dsn = "mysql:host=localhost";
-$user = "root";
-$pass = "";
+include "connection.php";
 $groups = $_GET['groups'];
-
-$dbh = new PDO($dsn, $user, $pass);
-print("Connected to database <br>");
-
 
 $sqlSelect = $dbh->prepare("SELECT * from $db.groups inner join $db.lesson_groups on $db.groups.ID_Groups = $db.lesson_groups.FID_Groups inner join $db.lesson on $db.lesson_groups.FID_Lesson2=$db.lesson.ID_Lesson where $db.groups.title = :groups");
 $sqlSelect->execute(array('groups' => $groups));
